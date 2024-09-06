@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +46,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'base',
-    'channels',
 ]
 
 INTERNAL_IPS = [
@@ -52,7 +53,6 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
-
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -88,6 +88,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+ASGI_APPLICATION = "core.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -140,4 +141,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-ASGI_APPLICATION = "core.routing.application"
+
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
